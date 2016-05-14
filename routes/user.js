@@ -58,4 +58,73 @@ userRoute.get('/findByID/:studentId', function(req,res,next) {
   }
 });
 
+userRoute.post('/add', function(req, res, next) {
+  User.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    userName: req.body.userName,
+    privateEmail: req.body.privateEmail,
+    mobile: req.body.mobile
+  })
+  .then( function(row) {
+    res.json({success: true, data: row});
+  })
+  .catch( function(err) {
+    if (err.name === 'SequelizeValidationError') {
+      var validationError = new Error('Validation error');
+      validationError.status = 400;
+      next(validationError);
+    }
+    else {
+      next(new Error('Internal server error')); // return 500
+    }
+  });
+});
+
+userRoute.put('/edit/:id', function(req, res, next) {
+
+  User.update(req.body,
+  {
+    where: { id: req.params.id }
+  }).then( (affectedRows) => {
+    if(affectedRows) {
+      res.json({success: true, message: 'Member updated'})
+    }
+    else {
+      var notFound = new Error('Member not found');
+      notFound.status = 404;
+      next(notFound);
+    }
+  }).catch( (err) => {
+    console.log(err);
+    if (err.name === 'SequelizeValidationError') {
+      var validationError = new Error('Validation error');
+      validationError.status = 400;
+      next(validationError);
+    }
+    else {
+      next(new Error('Internal server error')); // return 500
+    }
+  });
+
+});
+
+userRoute.delete('/delete/:id', function(req, res, next) {
+
+  User.destroy({where: { id: req.params.id } }).then( (affectedRows) => {
+    if(affectedRows) {
+      res.json({success: true, msg: 'Member deleted'});
+    }
+    else {
+      var notFound = new Error('Member not found');
+      notFound.status = 404;
+      next(notFound);
+    }
+  }).catch( (err) => {
+    next(new Error('Internal server error')); // return 500
+  });
+
+});
+
+
 module.exports = userRoute;
