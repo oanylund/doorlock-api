@@ -71,13 +71,19 @@ userRoute.post('/add', function(req, res, next) {
     res.json({success: true, data: row});
   })
   .catch( function(err) {
-    if (err.name === 'SequelizeValidationError') {
-      var validationError = new Error('Validation error');
-      validationError.status = 400;
-      next(validationError);
-    }
-    else {
-      next(new Error('Internal server error')); // return 500
+    switch (err.name) {
+      case 'SequelizeUniqueConstraintError':
+        var UniqueConstraintError = new Error('Student card already in use');
+        UniqueConstraintError.status = 400;
+        next(UniqueConstraintError);
+        break;
+      case 'SequelizeValidationError':
+        var validationError = new Error('Validation error');
+        validationError.status = 400;
+        next(validationError);
+        break;
+      default:
+        next(new Error('Internal server error')); // return 500
     }
   });
 });
