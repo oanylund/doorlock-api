@@ -64,7 +64,8 @@ userRoute.post('/add', function(req, res, next) {
     lastName: req.body.lastName,
     userName: req.body.userName,
     privateEmail: req.body.privateEmail,
-    mobile: req.body.mobile
+    mobile: req.body.mobile,
+    studentCardId: req.body.studentCardId
   })
   .then( function(row) {
     res.json({success: true, data: row});
