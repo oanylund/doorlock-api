@@ -14,7 +14,7 @@ auth.post('/authenticate', function(req,res,next) {
   }
   else {
     if( config.loginInfo.userpass !== req.body.userpass ) {
-      var authPasswordFail = new Error('Authentication failed. Password not found');
+      var authPasswordFail = new Error('Authentication failed. Password incorrect');
       authPasswordFail.status = 400;
       next(authPasswordFail);
     }
