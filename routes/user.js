@@ -34,16 +34,15 @@ userRoute.get('/', function(req,res,next) {
 });
 
 
-userRoute.get('/findByID/:studentId', function(req,res,next) {
-  if( !req.params.studentId ) {
+userRoute.get('/findByID/:id', function(req,res,next) {
+  if( !req.params.id ) {
     var noId = new Error('No student id supplied');
     noId.status = 400;
     next(noId);
   }
   else {
     User.findOne({
-      where: { studentCardId: req.params.studentId },
-      attributes: ['firstName', 'lastName', 'userName']
+      where: { id: req.params.id }
     })
     .then(function(user) {
       res.json({
