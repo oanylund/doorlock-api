@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var cors = require('cors');
 
 var auth = require('./jwt-auth');
 var userRoutes = require('./routes/user');
@@ -19,6 +20,16 @@ if (app.get('env') === 'development') {
 }
 
 var api = express.Router();
+
+//Handle preflight CORS requests
+api.options('*',cors());
+
+//Set general api headers
+api.use( (req,res,next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Accept,Content-Type,X-Requested-With,x-access-token");
+  next();
+})
 
 // Index, api docs.
 // Not authenticated.
