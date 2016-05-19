@@ -142,7 +142,7 @@ userRoute.delete('/delete/:id', function(req, res, next) {
 
   User.destroy({where: { id: req.params.id } }).then( (affectedRows) => {
     if(affectedRows) {
-      res.json({success: true, msg: 'Member deleted'});
+      res.json({success: true, message: 'Member deleted'});
     }
     else {
       var notFound = new Error('Member not found');
