@@ -12,6 +12,14 @@ var sequelize = require('doorlock-models').sequelize; // Local link. Also contai
 
 var port = process.env.PORT || 3000;
 
+var logger = function(msg) {
+  console.log('--------------------------------------------');
+  console.log(msg);
+  console.log(new Date());
+}
+
+logger('App started');
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -62,8 +70,8 @@ app.use( (err, req, res, next) => {
 });
 
 sequelize.sync().then(function() {
-  console.log('DB synced.');
+  logger('DB synced')
   app.listen(port, () => {
-    console.log('API server listening on port %d', port);
+    logger('API server listening on port ' + port);
   });
 });
