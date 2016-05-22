@@ -80,6 +80,7 @@ userRoute.post('/add', function(req, res, next) {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     userName: req.body.userName,
+	graduationYear: req.body.graduationYear,
     privateEmail: req.body.privateEmail,
     mobile: req.body.mobile,
     studentCardId: req.body.studentCardId
