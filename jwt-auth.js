@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
-var config = require('./config'); // Contains secret and login info
+var config = require('../config'); // Contains secret and login info
 
 var auth = express.Router();
 
