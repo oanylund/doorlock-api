@@ -2,13 +2,17 @@ var express = require('express');
 var app = express();
 var cors = require('cors');
 
+// Fetch local db environment vars from .env
+require('dotenv').config();
+
 var auth = require('./jwt-auth');
 var userRoutes = require('./routes/user');
 
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 
-var sequelize = require('doorlock-models').sequelize; // Local link. Also contains models
+var sequelize = require('doorlock-models')
+  .sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD);
 
 var port = process.env.PORT || 3000;
 
