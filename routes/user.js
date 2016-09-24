@@ -3,9 +3,11 @@ var userRoute = express.Router();
 
 var models = require('doorlock-models');
 var User = models.User;
+
 var standardFilter = require('../helpers/standardFilter');
 var filterUser = require('../helpers/filterUser');
 var handleUserError = require('../helpers/handleUserError');
+var generateError = require('../helpers/generateError');
 
 userRoute.get('/', function(req,res,next) {
 
@@ -14,17 +16,14 @@ userRoute.get('/', function(req,res,next) {
       res.json({ success: true, data: rows });
     })
     .catch( function(err) {
-      var getError = new Error('Internal server error');
-      next(getError);
+      next(generateError('Internal server error', 500));
     });
 
 });
 
 userRoute.get('/findByID/:id', function(req,res,next) {
   if( !req.params.id ) {
-    var noId = new Error('No student id supplied');
-    noId.status = 400;
-    next(noId);
+    next(generateError('No student id supplied', 400));
   }
   else {
     User.findOne({
@@ -37,8 +36,7 @@ userRoute.get('/findByID/:id', function(req,res,next) {
         });
       })
       .catch( function(err) {
-        var getError = new Error('Internal server error');
-        next(getError);
+        next(generateError('Internal server error', 500));
       });
   }
 });
@@ -72,9 +70,7 @@ userRoute.put('/edit/:id', function(req, res, next) {
         res.json({success: true, message: 'Member updated'})
       }
       else {
-        var notFound = new Error('Member not found');
-        notFound.status = 404;
-        next(notFound);
+        next(generateError('Member not found', 404));
       }
     })
     .catch( (err) => { handleUserError(err,next) });
@@ -89,13 +85,11 @@ userRoute.delete('/delete/:id', function(req, res, next) {
         res.json({success: true, message: 'Member deleted'});
       }
       else {
-        var notFound = new Error('Member not found');
-        notFound.status = 404;
-        next(notFound);
+        next(generateError('Member not found', 404));
       }
     })
     .catch( (err) => {
-      next(new Error('Internal server error')); // return 500
+      next(generateError('Internal server error', 500));
     });
 
 });
