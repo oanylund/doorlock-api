@@ -1,15 +1,4 @@
-var filterUser = function(query) {
-
-  var filter = {}
-  var orderDirection = query.order || 'ASC';
-  var orderBy = query.orderBy || 'id';
-  var orderFirst = [];
-  var order = [];
-  orderFirst.push(orderBy,orderDirection);
-  order.push(orderFirst);
-  filter.order = order;
-  if (query.limit) { filter.limit = +query.limit }
-  if (query.offset) { filter.offset = +query.offset }
+var filterUser = function(query, standardFilter) {
 
   var where = {}
   if (query.firstName) {
@@ -27,9 +16,7 @@ var filterUser = function(query) {
     });
   }
 
-  filter.where = where;
-
-  return filter;
+  return Object.assign({},standardFilter , where);
 }
 
 module.exports = filterUser;

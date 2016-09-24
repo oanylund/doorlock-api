@@ -3,12 +3,13 @@ var userRoute = express.Router();
 
 var models = require('doorlock-models');
 var User = models.User;
+var standardFilter = require('../helpers/standardFilter');
 var filterUser = require('../helpers/filterUser');
 var handleUserError = require('../helpers/handleUserError');
 
 userRoute.get('/', function(req,res,next) {
 
-  User.findAndCountAll(filterUser(req.query))
+  User.findAndCountAll(filterUser(req.query, standardFilter(req.query)))
     .then( function(rows) {
       res.json({ success: true, data: rows });
     })
