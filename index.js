@@ -1,14 +1,15 @@
+require('dotenv').config(); // Fetch local db environment vars from .env
 var express = require('express');
 var app = express();
 var cors = require('cors');
 
 var auth = require('./jwt-auth');
 var userRoutes = require('./routes/user');
+var productRoutes = require('./routes/product');
 
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 
-require('dotenv').config(); // Fetch local db environment vars from .env
 var sequelize = require('doorlock-models').sequelize;
 
 var port = process.env.PORT || 3000;
@@ -53,6 +54,7 @@ api.use(auth);
 
 // Api routes
 api.use('/user', userRoutes);
+api.use('/product', productRoutes);
 
 app.use('/', api);
 
