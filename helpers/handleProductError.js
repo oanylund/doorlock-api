@@ -1,10 +1,11 @@
 var generateError = require('./generateError');
+var handleDbValidationError = require('./handleDbValidationError');
 
 var handleProductError = function(err, next) {
   var newErr;
   switch (err.name) {
     case 'SequelizeValidationError':
-      var newErr = generateError('Validation error', 400);
+      var newErr = handleDbValidationError(err.errors);
       break;
     default:
       var genErr = generateError('Internal server error', 500);

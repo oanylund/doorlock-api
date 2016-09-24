@@ -69,7 +69,15 @@ app.use('*', (req,res,next) => {
 app.use( (err, req, res, next) => {
   err.message = err.message || 'Error'
   res.status(err.status || 500);
-  res.json({ message: err.message });
+  if(err.message === 'Validation error') {
+    res.json({
+      message: err.message,
+      errors: err.errors
+    });
+  }
+  else {
+    res.json({ message: err.message });    
+  }
 });
 
 sequelize.sync().then(function() {
