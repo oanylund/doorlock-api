@@ -14,7 +14,7 @@ slotRoute.get('/', function(req,res,next) {
     attributes: ['id'],
     include: [{
       model: Product,
-      attributes: ['description', 'retailPrice', 'costPrice']
+      attributes: ['id', 'description', 'retailPrice', 'costPrice']
     }]
   }))
     .then( function(rows) {
