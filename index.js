@@ -6,6 +6,7 @@ var cors = require('cors');
 var auth = require('./jwt-auth');
 var userRoutes = require('./routes/user');
 var productRoutes = require('./routes/product');
+var slotRoutes = require('./routes/slot');
 
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
@@ -55,6 +56,7 @@ api.use(auth);
 // Api routes
 api.use('/user', userRoutes);
 api.use('/product', productRoutes);
+api.use('/slot', slotRoutes);
 
 app.use('/', api);
 
@@ -76,7 +78,7 @@ app.use( (err, req, res, next) => {
     });
   }
   else {
-    res.json({ message: err.message });    
+    res.json({ message: err.message });
   }
 });
 
