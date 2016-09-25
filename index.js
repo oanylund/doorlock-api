@@ -7,6 +7,7 @@ var auth = require('./jwt-auth');
 var userRoutes = require('./routes/user');
 var productRoutes = require('./routes/product');
 var slotRoutes = require('./routes/slot');
+var transactionRoutes = require('./routes/transaction');
 
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
@@ -57,6 +58,7 @@ api.use(auth);
 api.use('/user', userRoutes);
 api.use('/product', productRoutes);
 api.use('/slot', slotRoutes);
+api.use('/transaction', transactionRoutes);
 
 app.use('/', api);
 
