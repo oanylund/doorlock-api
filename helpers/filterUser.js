@@ -1,4 +1,4 @@
-var filterUser = function(query, standardFilter) {
+var filterUser = function(query) {
 
   var where = {}
   if (query.firstName) {
@@ -16,7 +16,9 @@ var filterUser = function(query, standardFilter) {
     });
   }
 
-  return Object.assign({},standardFilter , where);
+  return {
+    where: where
+  };
 }
 
 module.exports = filterUser;

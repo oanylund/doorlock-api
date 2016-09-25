@@ -11,7 +11,7 @@ var generateError = require('../helpers/generateError');
 
 userRoute.get('/', function(req,res,next) {
 
-  User.findAndCountAll(filterUser(req.query, standardFilter(req.query)))
+  User.findAndCountAll(Object.assign({}, filterUser(req.query), standardFilter(req.query)))
     .then( function(rows) {
       res.json({ success: true, data: rows });
     })
