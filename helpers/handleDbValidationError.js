@@ -1,12 +1,11 @@
 var handleDbValidationError = function(errors) {
   var validationErr = new Error('Validation error');
   validationErr.status = 400;
-  validationErr.errors = errors.map( function(errorObj) {
-    return {
-      field: errorObj.path,
-      type: errorObj.message
-    }
-  })
+  validationErr.errors = errors.reduce( function(acc, err) {
+    acc[err.path] = err.message;
+    return acc;
+  }, {})
+
   return validationErr;
 }
 
