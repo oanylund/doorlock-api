@@ -1,24 +1,22 @@
+var Sequelize = require('doorlock-models').Sequelize;
+
 var filterUser = function(query) {
 
-  var where = {}
-  if (query.firstName) {
-    where = Object.assign(where, {
-      firstName: {
-        $like: '%' + query.firstName + '%'
-      }
-    });
-  }
-  if (query.lastName) {
-    where = Object.assign(where, {
-      lastName: {
-        $like: '%' + query.lastName + '%'
-      }
-    });
+  if (query.fullName) {
+    return {
+      where: Sequelize.where(
+        Sequelize.fn(
+          'concat',
+          Sequelize.col('firstName'),
+          ' ',
+          Sequelize.col('lastName')
+        ), {
+          like: '%' + query.fullName + '%'
+        }
+      )
+    }
   }
 
-  return {
-    where: where
-  };
 }
 
 module.exports = filterUser;
