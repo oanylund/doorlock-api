@@ -1,3 +1,4 @@
+require('dotenv').config(); // Fetch local db environment vars from .env
 var express = require('express');
 var app = express();
 var cors = require('cors');
@@ -7,8 +8,6 @@ var userRoutes = require('./routes/user');
 
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
-
-var sequelize = require('doorlock-models').sequelize; // Local link. Also contains models
 
 var port = process.env.PORT || 3000;
 
@@ -66,12 +65,17 @@ app.use('*', (req,res,next) => {
 app.use( (err, req, res, next) => {
   err.message = err.message || 'Error'
   res.status(err.status || 500);
-  res.json({ message: err.message });
+  if(err.message === 'Validation error') {
+    res.json({
+      message: err.message,
+      errors: err.errors
+    });
+  }
+  else {
+    res.json({ message: err.message });
+  }
 });
 
-sequelize.sync().then(function() {
-  logger('DB synced')
-  app.listen(port, () => {
-    logger('API server listening on port ' + port);
-  });
+app.listen(port, () => {
+  logger('API server listening on port ' + port);
 });
