@@ -9,8 +9,6 @@ var userRoutes = require('./routes/user');
 var bodyParser  = require('body-parser');
 var morgan      = require('morgan');
 
-var sequelize = require('doorlock-models').sequelize;
-
 var port = process.env.PORT || 3000;
 
 var logger = function(msg) {
@@ -78,9 +76,6 @@ app.use( (err, req, res, next) => {
   }
 });
 
-sequelize.sync().then(function() {
-  logger('DB synced')
-  app.listen(port, () => {
-    logger('API server listening on port ' + port);
-  });
+app.listen(port, () => {
+  logger('API server listening on port ' + port);
 });
