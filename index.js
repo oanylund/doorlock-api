@@ -1,4 +1,4 @@
-require('dotenv').config(); // Fetch local db environment vars from .env
+require('dotenv').config({path: __dirname + '/.env'}); // Fetch local db environment vars from .env
 var express = require('express');
 var app = express();
 var cors = require('cors');
